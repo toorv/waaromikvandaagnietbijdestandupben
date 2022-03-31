@@ -25,7 +25,9 @@ const excuses = {
   "ed1": "Medicijnen ophalen",
   "ed2": "Ziek",
   "ed3": "Kind(eren) wegbrengen",
-  "ed4": "huisarts"
+  "ed4": "huisarts",
+  "ed5": "Ritje teststraat",
+  "ed6": "Controle ziekenhuis"
 };
 
 const createExcuses = () => {
@@ -82,7 +84,7 @@ const createExcuses = () => {
 let wheel = {
 
   timerHandle: 0,
-  timerDelay: 33,
+  timerDelay: 20,
 
   angleCurrent: 0,
   angleDelta: 0,
@@ -91,7 +93,7 @@ let wheel = {
 
   canvasContext: null,
 
-  colors: ['#ffff00', '#ffc700', '#ff9100', '#ff6301', '#ff0000', '#c6037e',
+  colors: ['#ffff00', '#ffc700', '#ff9100', '#ff6301', '#ff0000', '#c6037e', '#559211',
            '#713697', '#444ea1', '#2772b2', '#0297ba', '#008e5b', '#8ac819', '#398272'],
 
   segments: [],
@@ -112,9 +114,8 @@ let wheel = {
   centerY: 300,
 
   spin: function() {
-
       // Start the wheel only if it's not already spinning
-      if (wheel.timerHandle == 0) {
+      if (wheel.timerHandle == 0 && wheel.segments.length > 0) {
           wheel.spinStart = new Date().getTime();
           wheel.maxSpeed = Math.PI / (16 + Math.random()); // Randomly vary how hard the spin is
           wheel.frames = 0;
@@ -152,7 +153,13 @@ let wheel = {
           wheel.timerHandle = 0;
           wheel.angleDelta = 0;
 
-          document.getElementById("counter").innerHTML = (wheel.frames / duration * 1000) + " FPS";
+          console.log(wheel.winner);
+
+          document.getElementById('result').innerHTML = wheel.winner
+          document.querySelector('.winner').classList.remove('hidden')
+
+          //document.getElementById("counter").innerHTML = (wheel.frames / duration * 1000) + " FPS";
+          console.log((wheel.frames / duration * 1000) + " FPS");
       }
 
 /*
@@ -255,6 +262,7 @@ let wheel = {
       ctx.fillStyle = '#000000';
       ctx.font = "2em Arial";
       ctx.fillText(wheel.segments[i] ? wheel.segments[i] : '', centerX + size + 25, centerY);
+      wheel.winner = wheel.segments[i]
   },
 
   drawSegment: function(key, lastAngle, angle) {

@@ -6,6 +6,10 @@ body {
   justify-content: space-between;
 }
 
+form {
+  width: 250px;
+}
+
 .input-wrapper {
   display: flex;
   flex-direction: row;
@@ -26,4 +30,8 @@ ul {
 
 canvas {
   cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="22" style="font-size:18px"><text y="18">▶️ Draai!</text></svg>'), auto;
+}
+
+.hidden {
+  display: none;
 }
