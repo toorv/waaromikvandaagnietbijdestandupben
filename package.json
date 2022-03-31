@@ -1,0 +1,23 @@
+{
+  "name": "waaromikvandaagnietbijdestandupben",
+  "version": "0.0.5",
+  "description": "Stand-up excuses",
+  "main": "wheel.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build --public-url . index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RubenJnl/waaromikvandaagnietbijdestandupben.git"
+  },
+  "author": "Ruben",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RubenJnl/waaromikvandaagnietbijdestandupben/issues"
+  },
+  "homepage": "https://github.com/RubenJnl/waaromikvandaagnietbijdestandupben#readme",
+  "dependencies": {
+    "parcel": "^2.4.0"
+  }
+}
