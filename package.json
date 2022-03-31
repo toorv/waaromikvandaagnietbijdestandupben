@@ -2,7 +2,6 @@
   "name": "waaromikvandaagnietbijdestandupben",
   "version": "0.0.5",
   "description": "Stand-up excuses",
-  "main": "wheel.js",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build --public-url . index.html"
