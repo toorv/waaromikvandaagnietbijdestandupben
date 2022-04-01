@@ -19,16 +19,8 @@ Number.prototype.mod = function(n) {
   return ((this % n) + n) % n;
 }
 
-// List of excuses.
-const excuses = {
-  "ed0": "Aquarium lek",
-  "ed1": "Medicijnen ophalen",
-  "ed2": "Ziek",
-  "ed3": "Kind(eren) wegbrengen",
-  "ed4": "huisarts",
-  "ed5": "Ritje teststraat",
-  "ed6": "Controle ziekenhuis"
-};
+// Import list of excuses.
+import excuses from './excuses'
 
 const createExcuses = () => {
 
@@ -212,7 +204,6 @@ let wheel = {
       // Generate a color cache (so we have consistant coloring)
       let seg_color = new Array();
       for (let i = 0; i < len; i++)
-      // console.log(colors[segments[i].hashCode().mod(colorLen)]);
       if (typeof segments[i] !== 'undefined') {
         seg_color.push(colors[segments[i].hashCode().mod(colorLen)]);
 
@@ -302,12 +293,6 @@ let wheel = {
       ctx.rotate((lastAngle + angle) / 2);
 
       ctx.fillStyle = '#000000';
-      // console.log(colors[key]);
-      // if (typeof colors[key] ==) {
-        // ctx.strokeStyle = '#ffffff';
-        // ctx.lineWidth = 3;
-        // ctx.strokeText(value.substr(0, 20), size / 2 + 20, 0);
-      // }
       ctx.fillText(value, size / 2.2 + 20, 0);
       ctx.restore();
 
