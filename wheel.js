@@ -1,5 +1,5 @@
 // Helpers
-shuffle = function(o) {
+const shuffle = function(o) {
   for (let j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
   return o;
 };
@@ -7,8 +7,8 @@ shuffle = function(o) {
 String.prototype.hashCode = function() {
   // See http://www.cse.yorku.ca/~oz/hash.html        
   let hash = 5381;
-  for (i = 0; i < this.length; i++) {
-      char = this.charCodeAt(i);
+  for (let i = 0; i < this.length; i++) {
+      const char = this.charCodeAt(i);
       hash = ((hash << 5) + hash) + char;
       hash = hash & hash; // Convert to 32bit integer
   }
@@ -65,10 +65,6 @@ const createExcuses = () => {
   }
 
   checkUpdatesWheel()
-
-  // $('#excuses ul>li').tsort("input", {
-  //     attr: "value"
-  // });
 }
 
 

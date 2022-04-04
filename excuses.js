@@ -1,4 +1,4 @@
-export default excuses = {
+const excuses = {
   "ed0": "Aquarium lek",
   "ed1": "Medicijnen ophalen",
   "ed2": "Ziek",
@@ -7,3 +7,5 @@ export default excuses = {
   "ed5": "Ritje teststraat",
   "ed6": "Controle ziekenhuis"
 };
+
+export default excuses
