@@ -90,9 +90,9 @@ let wheel = {
   // Cache of segments to colors
   maxSpeed: Math.PI / 16,
 
-  upTime: 1000,
+  upTime: 500,
   // How long to spin up for (in ms)
-  downTime: 17000,
+  downTime: 15000,
   // How long to slow down for (in ms)
   spinStart: 0,
 
@@ -106,7 +106,7 @@ let wheel = {
       if (wheel.timerHandle == 0 && wheel.segments.length > 0) {
           wheel.spinStart = new Date().getTime();
           wheel.maxSpeed = Math.PI / (16 + Math.random()); // Randomly vary how hard the spin is
-          wheel.frames = 0;
+          // wheel.frames = 0;
 
           wheel.timerHandle = setInterval(wheel.onTimerTick, wheel.timerDelay);
       }
@@ -114,7 +114,7 @@ let wheel = {
 
   onTimerTick: function() {
 
-      wheel.frames++;
+      // wheel.frames++;
 
       wheel.draw();
 
@@ -147,7 +147,7 @@ let wheel = {
           document.querySelector('.winner').classList.remove('hidden')
 
           //document.getElementById("counter").innerHTML = (wheel.frames / duration * 1000) + " FPS";
-          console.log((wheel.frames / duration * 1000) + " FPS");
+          // console.log((wheel.frames / duration * 1000) + " FPS");
       }
 
 /*
@@ -288,10 +288,21 @@ let wheel = {
       ctx.translate(centerX, centerY);
       ctx.rotate((lastAngle + angle) / 2);
 
-      ctx.fillStyle = '#000000';
-      ctx.fillText(value, size / 2.2 + 20, 0);
-      ctx.restore();
+      const newValue = value.match(/.{1,25}(\s|$)/g);
+      let y = 0
+      let xmultiplier = 0
 
+      ctx.fillStyle = '#000000';
+      
+      for (let l = 0; l < newValue.length; l++) {        
+        if (newValue.length >= 3 && l == 0){
+          y = -10
+        }
+        ctx.fillText(newValue[l], size / 2 + 20 + xmultiplier, y);
+        xmultiplier += 5
+        y += 20;
+      }
+      
       ctx.restore();
   },
 
@@ -343,17 +354,62 @@ let wheel = {
 
 const checkUpdatesWheel = () => {
   let segments = new Array();
+  
+  for (const [inputKey, input] of Object.entries(document.querySelectorAll('form input[type="text"]'))) {
+    if (input.value.length >= 1){
+      segments.push(input.value)
+    }
+  }
+  
   for (const [key, cbox] of Object.entries(document.querySelectorAll('#excuses input:checked'))){
       segments.push(cbox.value);
   }
 
   wheel.segments = segments;
+
+  const canvas = document.getElementById('canvas');
+  if (segments.length >= 1){
+    canvas.classList.add('ready')
+  } else {
+    canvas.classList.remove('ready')
+  }
   wheel.update();
 }
 
-window.onload = function() {
-  
-  wheel.init();
+window.inputTextEls = []
+window.inputTextBoundElements = []
+const changeInput = (e) => {
+  setTimeout(() => {
+    checkUpdatesWheel()
+  }, 10)
+}
+
+
+
+const bindChangingEvents = () => {
+  if (inputTextBoundElements.length > 0){
+    Array.prototype.forEach.call(window.inputTextEls, (input, key) => {
+      console.log(input);
+      input.removeEventListener('keydown', inputTextBoundElements[key])
+    })
+    inputTextBoundElements = new Array()
+    window.inputTextEls = new Array()
+  }
+
+  window.inputTextEls = document.querySelectorAll('form input[type="text"]')
+  Array.prototype.forEach.call(window.inputTextEls, (input, key) => {
+    if (input.value.length >= 1) {
+      checkUpdatesWheel()
+    }
+    inputTextBoundElements[key] = changeInput.bind(this)
+    input.addEventListener('keydown', inputTextBoundElements[key])  
+  })
+
+}
+
+window.newInputCounter = 0
+
+const bindEvents = () => {
 
   const generateEl =  document.getElementById('suggest')
   generateEl.addEventListener('click', () => {
@@ -361,5 +417,25 @@ window.onload = function() {
     generateEl.setAttribute('disabled', '')
   })
 
+  const addButton = document.getElementById('add')
+  const inputList = document.querySelector('.input-list')
+  addButton.addEventListener('click', () => {
+    newInputCounter++
+    const newDiv = document.createElement('div')
+    newDiv.innerHTML = `
+          <input type="text" name="e${newInputCounter}" id="e${newInputCounter}" />
+    `
+    inputList.appendChild(newDiv)
+    bindChangingEvents()
+  })
+
+  bindChangingEvents()
+}
+
+window.onload = function() {
   
+  wheel.init();
+
+  bindEvents()
+    
 }
